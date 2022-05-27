@@ -9,7 +9,14 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "paths": {
+      "@/core/*": ["./src/core/*"],
+      "@/data/*": ["./src/data/*"],
+      "@/infra/*": ["./src/infra/*"],
+      "@/presentation/*": ["./src/presentation/*"],
+      "@/shared/*": ["./src/shared/*"],
+      "@/use-cases/*": ["./src/use-cases/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

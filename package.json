@@ -18,7 +18,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@nestjs/common": "8.4.5",
@@ -72,6 +73,14 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "moduleNameMapper": {
+      "^@/core(.*)$": "<rootDir>/core$1",
+      "^@/data(.*)$": "<rootDir>/data$1",
+      "^@/infra(.*)$": "<rootDir>/infra$1",
+      "^@/presentation(.*)$": "<rootDir>/presentation$1",
+      "^@/shared(.*)$": "<rootDir>/shared$1",
+      "^@/use-cases(.*)$": "<rootDir>/use-cases$1"
+    },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
