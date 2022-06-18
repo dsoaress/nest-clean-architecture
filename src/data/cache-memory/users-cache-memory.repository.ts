@@ -1,11 +1,8 @@
-import { Injectable } from '@nestjs/common'
-
-import { UserEntity } from '@/core/domain/entities/user.entity'
-import { UserRepository } from '@/core/repositories/user.repository'
+import { UserEntity } from '@/core/domain/entities'
+import { UserRepository } from '@/core/repositories'
 
 import { RepositoryCacheMemory } from './repository-cache-memory'
 
-@Injectable()
 export class UsersCacheMemoryRepository
   extends RepositoryCacheMemory<UserEntity>
   implements UserRepository {}

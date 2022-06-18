@@ -1,11 +1,9 @@
-import { Injectable } from '@nestjs/common'
 import { Observable, of } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 import { Entity } from '@/core/base/entity'
 import { Repository } from '@/core/base/repository'
 
-@Injectable()
 export class RepositoryCacheMemory<TEntity extends Entity> extends Repository<TEntity> {
   protected readonly items: TEntity[]
 

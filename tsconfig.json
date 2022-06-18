@@ -13,7 +13,6 @@
       "@/core/*": ["./src/core/*"],
       "@/data/*": ["./src/data/*"],
       "@/infra/*": ["./src/infra/*"],
-      "@/presentation/*": ["./src/presentation/*"],
       "@/shared/*": ["./src/shared/*"],
       "@/use-cases/*": ["./src/use-cases/*"]
     },

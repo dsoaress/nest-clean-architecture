@@ -1,4 +1,4 @@
-import { Repository } from '../base/repository'
-import { UserEntity } from '../domain/entities/user.entity'
+import { Repository } from '@/core/base/repository'
+import { UserEntity } from '@/core/domain/entities'
 
 export abstract class UserRepository extends Repository<UserEntity> {}
