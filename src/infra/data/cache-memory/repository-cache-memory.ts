@@ -1,6 +1,3 @@
-import { Observable, of } from 'rxjs'
-import { map } from 'rxjs/operators'
-
 import { Entity } from '@/core/base/entity'
 import { Repository } from '@/core/base/repository'
 
@@ -12,15 +9,15 @@ export class RepositoryCacheMemory<TEntity extends Entity> extends Repository<TE
     this.items = []
   }
 
-  public create(data: TEntity): Observable<TEntity> {
+  async create(data: TEntity): Promise<TEntity> {
     data.id = this.items.length > 0 ? this.items.slice(-1)[0].id + 1 : 1
 
     const count = this.items.push(data)
 
-    return of(this.items[count - 1])
+    return this.items[count - 1]
   }
 
-  public update(id: number, data: TEntity): Observable<TEntity> {
+  async update(id: number, data: TEntity): Promise<TEntity> {
     const index = this.getIndexById(id)
 
     if (index === -1) {
@@ -29,10 +26,10 @@ export class RepositoryCacheMemory<TEntity extends Entity> extends Repository<TE
 
     this.items[index] = data
 
-    return of(this.items[index])
+    return this.items[index]
   }
 
-  public patch(id: number, data: Partial<TEntity>): Observable<TEntity> {
+  async patch(id: number, data: Partial<TEntity>): Promise<TEntity> {
     const index = this.getIndexById(id)
 
     if (index === -1) {
@@ -43,34 +40,34 @@ export class RepositoryCacheMemory<TEntity extends Entity> extends Repository<TE
       this.items[index][key] = data[key]
     }
 
-    return of(this.items[index])
+    return this.items[index]
   }
 
-  public getById(id: number): Observable<TEntity> {
+  async getById(id: number): Promise<TEntity> {
     const items = this.items.find(item => item.id === id)
 
-    return of(items)
+    return items
   }
 
-  public getAll(): Observable<TEntity[]> {
-    return of(this.items)
+  async getAll(): Promise<TEntity[]> {
+    return this.items
   }
 
-  public getOne(filter: Partial<TEntity>): Observable<TEntity> {
-    return this.getMany(filter).pipe(map(items => (items.length > 0 ? items[0] : null)))
+  async getOne(filter: Partial<TEntity>): Promise<TEntity> {
+    return this.getMany(filter).then(items => (items.length > 0 ? items[0] : null))
   }
 
-  public getMany(filter: Partial<TEntity>): Observable<TEntity[]> {
+  async getMany(filter: Partial<TEntity>): Promise<TEntity[]> {
     let filtered = this.items
 
     for (const key in filter) {
       filtered = filtered.filter(item => item[key] === filter[key])
     }
 
-    return of(filtered)
+    return filtered
   }
 
-  public delete(id: number): Observable<void> {
+  async delete(id: number): Promise<void> {
     const index = this.getIndexById(id)
 
     if (index === -1) {
@@ -78,7 +75,6 @@ export class RepositoryCacheMemory<TEntity extends Entity> extends Repository<TE
     }
 
     this.items.splice(index, 1)
-    return of()
   }
 
   private getIndexById(id: number) {

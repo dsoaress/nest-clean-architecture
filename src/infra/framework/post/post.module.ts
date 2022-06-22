@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common'
 
 import { PostRepository } from '@/core/repositories'
-import { PostsCacheMemoryRepository } from '@/data/cache-memory/posts-cache-memory.repository'
+import { PostsPrismaRepository } from '@/infra/data/prisma/posts-prisma.repository'
+import { PrismaService } from '@/infra/data/prisma/prisma.service'
 import { CreatePostUseCase, GetAllPostsUseCase } from '@/use-cases/post'
 
 import { PostController } from './post.controller'
@@ -9,9 +10,11 @@ import { PostController } from './post.controller'
 @Module({
   controllers: [PostController],
   providers: [
+    PrismaService,
     {
       provide: PostRepository,
-      useClass: PostsCacheMemoryRepository
+      useFactory: (prisma: PrismaService) => new PostsPrismaRepository(prisma),
+      inject: [PrismaService]
     },
     {
       provide: CreatePostUseCase,

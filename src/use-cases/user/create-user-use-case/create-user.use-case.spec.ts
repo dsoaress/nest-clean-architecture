@@ -1,13 +1,15 @@
-import { lastValueFrom } from 'rxjs'
-
 import { UserRepository } from '@/core/repositories'
-import { UsersCacheMemoryRepository } from '@/data/cache-memory/users-cache-memory.repository'
+import { UsersCacheMemoryRepository } from '@/infra/data/cache-memory/users-cache-memory.repository'
 
 import { CreateUserUseCase } from './create-user.use-case'
 
 describe('CreateUserUseCase', () => {
   let createUserUserCase: CreateUserUseCase
   let userRepository: UserRepository
+
+  const name = 'John Doe'
+  const email = 'johndoe@example.com'
+  const password = '123456'
 
   beforeEach(() => {
     userRepository = new UsersCacheMemoryRepository()
@@ -19,16 +21,14 @@ describe('CreateUserUseCase', () => {
   })
 
   it('should create a user', async () => {
-    const user = createUserUserCase.execute({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123456'
-    })
-
-    await expect(lastValueFrom(user)).resolves.toEqual({
-      id: 1,
-      name: 'John Doe',
-      email: 'johndoe@example.com'
-    })
+    const user = await createUserUserCase.execute({ name, email, password })
+    expect(user).toEqual({ id: 1, name, email })
   })
+
+  // it('should throw an error if user already exists', async () => {
+  //   await createUserUserCase.execute({ name, email, password })
+  //   await expect(createUserUserCase.execute({ name, email, password })).rejects.toThrowError(
+  //     'User already exists'
+  //   )
+  // })
 })

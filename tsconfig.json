@@ -11,7 +11,6 @@
     "outDir": "./dist",
     "paths": {
       "@/core/*": ["./src/core/*"],
-      "@/data/*": ["./src/data/*"],
       "@/infra/*": ["./src/infra/*"],
       "@/shared/*": ["./src/shared/*"],
       "@/use-cases/*": ["./src/use-cases/*"]

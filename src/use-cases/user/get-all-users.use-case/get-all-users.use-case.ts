@@ -1,5 +1,3 @@
-import { map, Observable } from 'rxjs'
-
 import { UseCase } from '@/core/base/use-case'
 import { CreatedUserMapper } from '@/core/domain/mappers'
 import { UserRepository } from '@/core/repositories'
@@ -12,7 +10,8 @@ export class GetAllUsersUseCase implements UseCase<CreatedUserDto[]> {
     this.CreatedUserMapper = new CreatedUserMapper()
   }
 
-  public execute(): Observable<CreatedUserDto[]> {
-    return this.repository.getAll().pipe(map(data => data.map(this.CreatedUserMapper.mapTo)))
+  public async execute(): Promise<CreatedUserDto[]> {
+    const users = await this.repository.getAll()
+    return users.map(user => this.CreatedUserMapper.mapTo(user))
   }
 }

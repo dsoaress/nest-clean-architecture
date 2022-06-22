@@ -1,6 +1,3 @@
-import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
-
 import { UseCase } from '@/core/base/use-case'
 import { CreatedPostMapper } from '@/core/domain/mappers'
 import { CreatePostMapper } from '@/core/domain/mappers/post/create-post.mapper'
@@ -16,8 +13,9 @@ export class CreatePostUseCase implements UseCase<CreatedPostDto> {
     this.CreatedPostMapper = new CreatedPostMapper()
   }
 
-  public execute(post: CreatePostDto): Observable<CreatedPostDto> {
+  public async execute(post: CreatePostDto): Promise<CreatedPostDto> {
     const entity = this.CreatePostMapper.mapFrom(post)
-    return this.repository.create(entity).pipe(map(this.CreatedPostMapper.mapTo))
+    const createdPost = await this.repository.create(entity)
+    return this.CreatedPostMapper.mapTo(createdPost)
   }
 }

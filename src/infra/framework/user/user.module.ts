@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common'
 
 import { UserRepository } from '@/core/repositories'
-import { UsersCacheMemoryRepository } from '@/data/cache-memory/users-cache-memory.repository'
+import { PrismaService } from '@/infra/data/prisma/prisma.service'
+import { UsersPrismaRepository } from '@/infra/data/prisma/users-prisma.repository'
 import { CreateUserUseCase, GetAllUsersUseCase } from '@/use-cases/user'
 
 import { UserController } from './user.controller'
@@ -9,9 +10,11 @@ import { UserController } from './user.controller'
 @Module({
   controllers: [UserController],
   providers: [
+    PrismaService,
     {
       provide: UserRepository,
-      useClass: UsersCacheMemoryRepository
+      useFactory: (prisma: PrismaService) => new UsersPrismaRepository(prisma),
+      inject: [PrismaService]
     },
     {
       provide: CreateUserUseCase,

@@ -1,5 +1,3 @@
-import { map, Observable } from 'rxjs'
-
 import { UseCase } from '@/core/base/use-case'
 import { CreatedPostMapper } from '@/core/domain/mappers'
 import { PostRepository } from '@/core/repositories'
@@ -12,7 +10,8 @@ export class GetAllPostsUseCase implements UseCase<CreatedPostDto[]> {
     this.CreatedPostMapper = new CreatedPostMapper()
   }
 
-  public execute(): Observable<CreatedPostDto[]> {
-    return this.repository.getAll().pipe(map(data => data.map(this.CreatedPostMapper.mapTo)))
+  public async execute(): Promise<CreatedPostDto[]> {
+    const posts = await this.repository.getAll()
+    return posts.map(post => this.CreatedPostMapper.mapTo(post))
   }
 }

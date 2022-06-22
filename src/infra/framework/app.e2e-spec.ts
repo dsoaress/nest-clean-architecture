@@ -23,4 +23,12 @@ describe('AppController (e2e)', () => {
   it('/users (POST)', () => {
     return request(app.getHttpServer()).post('/').expect(201).expect({ id: 1 })
   })
+
+  it('/posts (GET)', () => {
+    return request(app.getHttpServer()).get('/').expect(200).expect([])
+  })
+
+  it('/posts (POST)', () => {
+    return request(app.getHttpServer()).post('/').expect(201).expect({ id: 1 })
+  })
 })
