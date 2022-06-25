@@ -4,6 +4,8 @@
 
 # Nest.js Clean Architecture
 
+[![codecov](https://codecov.io/gh/dsoaress/nest-clean-architecture/branch/main/graph/badge.svg?token=N3L06J3GQN)](https://codecov.io/gh/dsoaress/nest-clean-architecture)
+
 ## Description
 
 A proof of concept of applying Clean Architecture in Nest.js applications.
